@@ -5,7 +5,12 @@ const qrcodeTerminal = require('qrcode-terminal');
 
 const app = express();
 const PORT = 3001;
-const client = new Client();
+const client = new Client({
+  puppeteer: {
+    executablePath: '/usr/bin/chromium',
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
+  }
+});
 
 // Middlewares
 app.use(bodyParser.json());
@@ -64,6 +69,11 @@ app.post('/AddToGroup', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+// app.listen(PORT, () => {
+//   console.log(`Servidor corriendo en http://localhost:${PORT}`);
+// });
+
+
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Servidor corriendo en http://0.0.0.0:${PORT}`);
 });
